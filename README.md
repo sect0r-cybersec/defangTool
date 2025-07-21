@@ -2,6 +2,12 @@
 
 A browser extension that automatically detects Indicators of Compromise (IOCs) such as IP addresses, URLs, domains, and email addresses in text inputs, and provides an option to replace them with defanged versions for safe sharing and documentation.
 
+## Demo
+
+![IOC Defang Extension Demo](demo.gif)
+
+*Watch the extension automatically detect IOCs and provide defanging options in real-time*
+
 ## Features
 
 - **Automatic IOC Detection**: Detects IPv4, IPv6, URLs, domains, and email addresses in real-time
