@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOC Defang Extension Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #495057;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+        
+        .test-section h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+        
+        .example {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .instructions {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #0c5460;
+        }
+        
+        .instructions h4 {
+            margin-top: 0;
+            color: #0c5460;
+        }
+        
+        .instructions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ IOC Defang Extension Test Page</h1>
+        
+        <div class="instructions">
+            <h4>How to test the extension:</h4>
+            <ul>
+                <li>Make sure the IOC Defang Extension is installed and enabled</li>
+                <li>Type or paste IOCs into the input fields below</li>
+                <li>Watch for the tooltip to appear above the input</li>
+                <li>Click "Replace with Defanged" to see the transformation</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>IPv4 Address Test</h3>
+            <label for="ipv4-input">Enter an IPv4 address:</label>
+            <input type="text" id="ipv4-input" placeholder="e.g., 192.168.1.1">
+            <div class="example">Try: 192.168.1.1, 10.0.0.1, 172.16.0.1</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>IPv6 Address Test</h3>
+            <label for="ipv6-input">Enter an IPv6 address:</label>
+            <input type="text" id="ipv6-input" placeholder="e.g., 2001:db8::1">
+            <div class="example">Try: 2001:db8::1, ::1, fe80::1</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>URL Test</h3>
+            <label for="url-input">Enter a URL:</label>
+            <input type="url" id="url-input" placeholder="e.g., https://example.com/path">
+            <div class="example">Try: https://malicious-site.com/payload, http://test.com</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Domain Test</h3>
+            <label for="domain-input">Enter a domain:</label>
+            <input type="text" id="domain-input" placeholder="e.g., example.com">
+            <div class="example">Try: example.com, subdomain.example.org</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Textarea Test</h3>
+            <label for="textarea-input">Enter text with IOCs:</label>
+            <textarea id="textarea-input" rows="4" placeholder="Enter a paragraph with multiple IOCs..."></textarea>
+            <div class="example">Try: "The malicious IP 192.168.1.100 contacted the domain evil.com and downloaded from https://malware.com/payload.exe"</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Contenteditable Test</h3>
+            <label for="contenteditable-input">Editable content area:</label>
+            <div id="contenteditable-input" contenteditable="true" style="border: 1px solid #ced4da; border-radius: 4px; padding: 10px; min-height: 60px; background: white;">
+                Click here and type IOCs like 8.8.8.8 or https://google.com
+            </div>
+            <div class="example">Try: 8.8.8.8, https://google.com, example.org</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Mixed Content Test</h3>
+            <label for="mixed-input">Enter mixed content with IOCs:</label>
+            <textarea id="mixed-input" rows="3" placeholder="Enter text with various IOC types..."></textarea>
+            <div class="example">Try: "Alert: IP 10.0.0.5 accessed https://suspicious.com/api and resolved to malware.example.net"</div>
+        </div>
+    </div>
+    
+    <script>
+        // Add some sample data for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to populate examples
+            const examples = {
+                'ipv4-input': '192.168.1.100',
+                'ipv6-input': '2001:db8::1',
+                'url-input': 'https://malicious-site.com/payload.exe',
+                'domain-input': 'evil.com',
+                'textarea-input': 'Security alert: IP 192.168.1.100 contacted domain malware.com and downloaded from https://evil.com/payload.exe',
+                'mixed-input': 'Incident report: 10.0.0.5 accessed https://suspicious.com/api and resolved to malware.example.net'
+            };
+            
+            Object.keys(examples).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('click', function() {
+                        if (!this.value) {
+                            this.value = examples[id];
+                            this.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
